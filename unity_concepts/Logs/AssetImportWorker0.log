@@ -976,3 +976,131 @@ Received Import Request.
 Start importing Assets/Physic Materials/bounce.physicMaterial using Guid(3be87b451d60d46748b19369332cab62) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: '60780b3879a1944774a3adc8ff485370') in 0.001749084 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6c0b66268ca4e667cf0c0085ace19c48 DependenciesID=e5f270304238957c7c3bca0bf02ce764 StaticDependenciesID=f5e03a429714cdcc5a2cedf32163ca2d 
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
 
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+[Licensing::Client] Successfully resolved entitlement details
+Thread 0x16b533000 may have been prematurely finalized
+Assembly Assembly-CSharp-Editor-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-Editor.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp.dll at Library/ScriptAssemblies/Assembly-CSharp.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Tests.dll not valid. Loading of assembly skipped.
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.204 seconds
+Domain Reload Profiling: 388ms
+	BeginReloadAssembly (112ms)
+		DisableScriptedObjects (5ms)
+		CreateAndSetChildDomain (24ms)
+	RebuildCommonClasses (22ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (25ms)
+	LoadAllAssembliesAndSetupDomain (15ms)
+		LoadAssemblies (47ms)
+		AnalyzeDomain (8ms)
+			TypeCache.Refresh (3ms)
+	FinalizeReload (204ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (53ms)
+			ProcessInitializeOnLoadAttributes (45ms)
+			ProcessInitializeOnLoadMethodAttributes (23ms)
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 63 unused Assets / (1.1 KB). Loaded Objects now: 675.
+Memory consumption went from 67.2 MB to 67.2 MB.
+Total: 3.457000 ms (FindLiveObjects: 0.028584 ms CreateObjectMapping: 0.004666 ms MarkObjects: 3.394959 ms  DeleteObjects: 0.028459 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Thread 0x16b5bf000 may have been prematurely finalized
+Assembly Assembly-CSharp-Editor-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-Editor.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp.dll at Library/ScriptAssemblies/Assembly-CSharp.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Tests.dll not valid. Loading of assembly skipped.
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.182 seconds
+Domain Reload Profiling: 311ms
+	BeginReloadAssembly (71ms)
+		CreateAndSetChildDomain (11ms)
+	RebuildCommonClasses (23ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (15ms)
+	LoadAllAssembliesAndSetupDomain (10ms)
+		LoadAssemblies (33ms)
+		AnalyzeDomain (5ms)
+			TypeCache.Refresh (2ms)
+	FinalizeReload (183ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (51ms)
+			ProcessInitializeOnLoadAttributes (42ms)
+			ProcessInitializeOnLoadMethodAttributes (22ms)
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 62 unused Assets / (1.0 KB). Loaded Objects now: 675.
+Memory consumption went from 67.0 MB to 67.0 MB.
+Total: 3.109792 ms (FindLiveObjects: 0.022375 ms CreateObjectMapping: 0.003833 ms MarkObjects: 3.066542 ms  DeleteObjects: 0.016916 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Import Request.
+  Time since last request: 877.448668 seconds.
+  path: Assets/Scenes/2-colors 1.unity
+  importAddress: Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/2-colors 1.unity using Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (Import Result ID: 'c74960dcc1c4f669937489df8cf1d8c0') in 0.00356125 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=e82b192b13b3ebf26b40cbb0fc8fae3b DependenciesID=799e5b9a71c5e2c13e9fb4ce13097ff1 StaticDependenciesID=107b4e914721c074631bc8b9ee7b2a35 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.981591 seconds.
+  path: Assets/Scenes/2-colors 1.unity
+  importAddress: Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Scenes/2-colors 1.unity using Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: 'cc541b9f4abc93eaf7d7fed1e80eead2') in 0.073877583 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ee1c895c4f6dd46764121ed1ea94c865 DependenciesID=7dd4db7d41a49ee7b3e54bda57bb6618 StaticDependenciesID=35504dde22d507528a3c037a4a9c6f6b 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 33.870552 seconds.
+  path: Assets/Scenes/3-gravity.unity
+  importAddress: Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/3-gravity.unity using Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (Import Result ID: '9ffcc7a24bb7aca0f72d08742357b9eb') in 0.000311 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=e82b192b13b3ebf26b40cbb0fc8fae3b DependenciesID=ad9c6a0b37e2acfce2ceae179e8d2f18 StaticDependenciesID=54cea30cb07ac7368ee302431c3b6005 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.991212 seconds.
+  path: Assets/Scenes/3-gravity.unity
+  importAddress: Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Scenes/3-gravity.unity using Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: '7b0d8eeb4ef6581c83966718c407b8e1') in 0.001811375 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=b0bca757744b39f8125ba9f9291b6b02 DependenciesID=5e386f67f04bd8f7922a3dc8f1b2bbe9 StaticDependenciesID=47bc658fdc2342b37ec28f103f23f7f6 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.392131 seconds.
+  path: Assets/Scenes/3-gravity.unity
+  importAddress: Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/3-gravity.unity using Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (Import Result ID: 'dc915bc58f29fc6374293ba0594d0d68') in 0.000632875 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=e82b192b13b3ebf26b40cbb0fc8fae3b DependenciesID=2270e9e9c3078d92fe7d582a630dcc8c StaticDependenciesID=f36a171ad30557e86475e6c6709cb855 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.926761 seconds.
+  path: Assets/Scenes/3-gravity.unity
+  importAddress: Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Scenes/3-gravity.unity using Guid(07cdda6cd7ebf40119f5ebb72223caad) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: 'ce3c76b2218a47420ba5e41f6c50a744') in 0.001724666 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6fd13e1fa84667955fddcbd1ef7e0ab3 DependenciesID=b4e7f196c09dee6d6ba8eeddca5f512e StaticDependenciesID=6b6a6dac398058d9c9b9bfa3eea00ff6 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
