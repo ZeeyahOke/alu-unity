@@ -936,3 +936,43 @@ Received Import Request.
 Start importing Assets/Prefabs/Ball.prefab using Guid(dbda5d88657214f7d891de847a204803) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: 'c6a4634e9e9e8656b4a64d58dedbaa2d') in 0.018834167 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=e098496eb16b3c4ea74754bafa2bd5bd DependenciesID=fb461147ce509ef9496e1cd46e107a78 StaticDependenciesID=6e5a2c27793e053cdd08785e8777f831 
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 10
 
+========================================================================
+Received Import Request.
+  Time since last request: 763.015194 seconds.
+  path: Assets/Materials/ball.mat
+  importAddress: Guid(410c3ba6786204f3d84d6b8d0b1a7da5) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Materials/ball.mat using Guid(410c3ba6786204f3d84d6b8d0b1a7da5) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: 'ae13f40294a7e32538e38136594b7dcf') in 0.005567542 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=198a4c2144204f03b3c19069954e6625 DependenciesID=8d80ae2215189c38db180b50da6e6971 StaticDependenciesID=2ff9044794eb419025a00042d69ca5f4 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 89.315708 seconds.
+  path: Assets/Physic Materials/bounce.physicMaterial
+  importAddress: Guid(3be87b451d60d46748b19369332cab62) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Physic Materials/bounce.physicMaterial using Guid(3be87b451d60d46748b19369332cab62) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: '6e348d75f36dd2bd0cb449eeaccea282') in 0.004923417 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=fecbe8dc68a49266e0bbc8b1d8f2fc78 DependenciesID=b0623a9699682c74ffacd5d885b949df StaticDependenciesID=594463cc1bce00957f43c0648e03b5df 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.032503 seconds.
+  path: Assets/Physic Materials/bounce.physicMaterial
+  importAddress: Guid(3be87b451d60d46748b19369332cab62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Physic Materials/bounce.physicMaterial using Guid(3be87b451d60d46748b19369332cab62) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (Import Result ID: '12ccd811ad36f399f2757ec03ba128e0') in 0.001187667 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2ee845707b504a0465a8b517003b7c81 DependenciesID=e1c4827f55960184c0f06175fe1b1674 StaticDependenciesID=b65032cfb07929a93f51da6642f3adb0 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 19.248418 seconds.
+  path: Assets/Physic Materials/bounce.physicMaterial
+  importAddress: Guid(3be87b451d60d46748b19369332cab62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Physic Materials/bounce.physicMaterial using Guid(3be87b451d60d46748b19369332cab62) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (Import Result ID: '727fb236f792c98bbea6be56b4008560') in 0.00054925 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2ee845707b504a0465a8b517003b7c81 DependenciesID=f88de6caf81f852ef5e212e745971a62 StaticDependenciesID=ac13126b522ffbabc15e924c5ee8393b 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.995713 seconds.
+  path: Assets/Physic Materials/bounce.physicMaterial
+  importAddress: Guid(3be87b451d60d46748b19369332cab62) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Physic Materials/bounce.physicMaterial using Guid(3be87b451d60d46748b19369332cab62) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (Import Result ID: '60780b3879a1944774a3adc8ff485370') in 0.001749084 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6c0b66268ca4e667cf0c0085ace19c48 DependenciesID=e5f270304238957c7c3bca0bf02ce764 StaticDependenciesID=f5e03a429714cdcc5a2cedf32163ca2d 
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
