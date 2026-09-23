@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
@@ -428,6 +429,264 @@ public static class BusinessCardSceneBuilder
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
         Debug.Log("WireArAnchoring: BusinessCardCanvas reparented under ImageTarget, converted to World Space, and scene saved.");
         EditorUtility.DisplayDialog("AR Business Card", "Card layout is now anchored to the ImageTarget (World Space canvas, reparented, Main Camera removed).", "OK");
+    }
+
+    [MenuItem("AR Business Card/7. Add Card Animations (Task 2)")]
+    private static void AddCardAnimations()
+    {
+        var canvasGO = GameObject.Find("BusinessCardCanvas");
+        if (canvasGO == null)
+        {
+            Debug.LogError("AddCardAnimations: BusinessCardCanvas not found.");
+            return;
+        }
+
+        var imageTarget = GameObject.Find("ImageTarget");
+        if (imageTarget == null)
+        {
+            Debug.LogError("AddCardAnimations: ImageTarget not found.");
+            return;
+        }
+
+        var handler = imageTarget.GetComponent<DefaultObserverEventHandler>();
+        if (handler == null)
+        {
+            Debug.LogError("AddCardAnimations: DefaultObserverEventHandler not found on ImageTarget.");
+            return;
+        }
+
+        const string genDir = "Assets/Generated";
+        if (!AssetDatabase.IsValidFolder(genDir))
+            AssetDatabase.CreateFolder("Assets", "Generated");
+
+        // Ensure a CanvasGroup exists so we can fade the whole card in.
+        var canvasGroup = canvasGO.GetComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = canvasGO.AddComponent<CanvasGroup>();
+
+        // ---- Entrance clip: fade the card in, pop each button in with a staggered overshoot ----
+        var entranceClip = new AnimationClip { legacy = true, wrapMode = WrapMode.Once, name = "CardEntrance" };
+
+        var fadeCurve = new AnimationCurve();
+        fadeCurve.AddKey(0f, 0f);
+        fadeCurve.AddKey(0.5f, 1f);
+        AnimationUtility.SetEditorCurve(entranceClip, EditorCurveBinding.FloatCurve("", typeof(CanvasGroup), "m_Alpha"), fadeCurve);
+
+        float delay = 0f;
+        const float perButtonDelay = 0.12f;
+        const float popDuration = 0.35f;
+        foreach (var buttonName in LinkNames)
+        {
+            var buttonTransform = canvasGO.transform.Find("BusinessCardLayout/" + buttonName + "Button");
+            if (buttonTransform == null) continue;
+            string path = AnimationUtility.CalculateTransformPath(buttonTransform, canvasGO.transform);
+
+            foreach (var axis in new[] { "x", "y", "z" })
+            {
+                var curve = new AnimationCurve();
+                curve.AddKey(0f, 0f);
+                curve.AddKey(delay, 0f);
+                curve.AddKey(delay + popDuration, 1.15f);
+                curve.AddKey(delay + popDuration + 0.12f, 1f);
+                for (int i = 0; i < curve.length; i++)
+                {
+                    AnimationUtility.SetKeyLeftTangentMode(curve, i, AnimationUtility.TangentMode.ClampedAuto);
+                    AnimationUtility.SetKeyRightTangentMode(curve, i, AnimationUtility.TangentMode.ClampedAuto);
+                }
+                AnimationUtility.SetEditorCurve(entranceClip, EditorCurveBinding.FloatCurve(path, typeof(Transform), "m_LocalScale." + axis), curve);
+            }
+            delay += perButtonDelay;
+        }
+
+        string entranceClipPath = genDir + "/CardEntrance.anim";
+        var existingEntrance = AssetDatabase.LoadAssetAtPath<AnimationClip>(entranceClipPath);
+        if (existingEntrance != null) AssetDatabase.DeleteAsset(entranceClipPath);
+        AssetDatabase.CreateAsset(entranceClip, entranceClipPath);
+
+        var anim = canvasGO.GetComponent<Animation>();
+        if (anim == null) anim = canvasGO.AddComponent<Animation>();
+        anim.AddClip(entranceClip, entranceClip.name);
+        anim.clip = entranceClip;
+        anim.playAutomatically = false;
+        anim.wrapMode = WrapMode.Once;
+
+        var trigger = canvasGO.GetComponent<CardAnimationTrigger>();
+        if (trigger == null) trigger = canvasGO.AddComponent<CardAnimationTrigger>();
+
+        bool alreadyWired = false;
+        int listenerCount = handler.OnTargetFound.GetPersistentEventCount();
+        for (int i = 0; i < listenerCount; i++)
+        {
+            if (handler.OnTargetFound.GetPersistentTarget(i) == trigger &&
+                handler.OnTargetFound.GetPersistentMethodName(i) == "PlayEntrance")
+            {
+                alreadyWired = true;
+                break;
+            }
+        }
+        if (!alreadyWired)
+        {
+            UnityEventTools.AddPersistentListener(handler.OnTargetFound, trigger.PlayEntrance);
+        }
+
+        // ---- Idle clip: gentle continuous wobble on each button ----
+        var idleClip = new AnimationClip { legacy = true, wrapMode = WrapMode.Loop, name = "IconIdleWobble" };
+        float[] angles = { 0f, 6f, 0f, -6f, 0f };
+        float[] times = { 0f, 0.6f, 1.2f, 1.8f, 2.4f };
+        var curveX = new AnimationCurve();
+        var curveY = new AnimationCurve();
+        var curveZ = new AnimationCurve();
+        var curveW = new AnimationCurve();
+        for (int i = 0; i < angles.Length; i++)
+        {
+            var q = Quaternion.Euler(0f, 0f, angles[i]);
+            curveX.AddKey(times[i], q.x);
+            curveY.AddKey(times[i], q.y);
+            curveZ.AddKey(times[i], q.z);
+            curveW.AddKey(times[i], q.w);
+        }
+        AnimationUtility.SetEditorCurve(idleClip, EditorCurveBinding.FloatCurve("", typeof(Transform), "m_LocalRotation.x"), curveX);
+        AnimationUtility.SetEditorCurve(idleClip, EditorCurveBinding.FloatCurve("", typeof(Transform), "m_LocalRotation.y"), curveY);
+        AnimationUtility.SetEditorCurve(idleClip, EditorCurveBinding.FloatCurve("", typeof(Transform), "m_LocalRotation.z"), curveZ);
+        AnimationUtility.SetEditorCurve(idleClip, EditorCurveBinding.FloatCurve("", typeof(Transform), "m_LocalRotation.w"), curveW);
+
+        string idleClipPath = genDir + "/IconIdleWobble.anim";
+        var existingIdle = AssetDatabase.LoadAssetAtPath<AnimationClip>(idleClipPath);
+        if (existingIdle != null) AssetDatabase.DeleteAsset(idleClipPath);
+        AssetDatabase.CreateAsset(idleClip, idleClipPath);
+
+        foreach (var buttonName in LinkNames)
+        {
+            var buttonTransform = canvasGO.transform.Find("BusinessCardLayout/" + buttonName + "Button");
+            if (buttonTransform == null) continue;
+            var buttonAnim = buttonTransform.GetComponent<Animation>();
+            if (buttonAnim == null) buttonAnim = buttonTransform.gameObject.AddComponent<Animation>();
+            buttonAnim.AddClip(idleClip, idleClip.name);
+            buttonAnim.clip = idleClip;
+            buttonAnim.playAutomatically = true;
+            buttonAnim.wrapMode = WrapMode.Loop;
+        }
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+        Debug.Log("AddCardAnimations: entrance (fade + staggered button pop-in on target found) and idle wobble animations wired up; scene saved.");
+        EditorUtility.DisplayDialog("AR Business Card", "Card animations added:\n- Fade + staggered button pop-in when the marker is found\n- Gentle idle wobble on each icon button", "OK");
+    }
+
+    [MenuItem("AR Business Card/8. Wire Interactive Links (Task 3)")]
+    private static void WireInteractiveLinks()
+    {
+        var canvasGO = GameObject.Find("BusinessCardCanvas");
+        if (canvasGO == null)
+        {
+            Debug.LogError("WireInteractiveLinks: BusinessCardCanvas not found.");
+            return;
+        }
+
+        const string genDir = "Assets/Generated";
+        if (!AssetDatabase.IsValidFolder(genDir))
+            AssetDatabase.CreateFolder("Assets", "Generated");
+
+        const string clipPath = genDir + "/ButtonClick.wav";
+        if (!File.Exists(clipPath))
+        {
+            WriteClickSoundWav(clipPath);
+            AssetDatabase.Refresh();
+        }
+        var clickClip = AssetDatabase.LoadAssetAtPath<AudioClip>(clipPath);
+        if (clickClip == null)
+        {
+            Debug.LogError("WireInteractiveLinks: failed to import generated click sound at " + clipPath);
+        }
+
+        int wiredCount = 0;
+        foreach (var buttonName in LinkNames)
+        {
+            var buttonTransform = canvasGO.transform.Find("BusinessCardLayout/" + buttonName + "Button");
+            if (buttonTransform == null)
+            {
+                Debug.LogWarning("WireInteractiveLinks: could not find " + buttonName + "Button");
+                continue;
+            }
+            var buttonGO = buttonTransform.gameObject;
+
+            var audioSource = buttonGO.GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = buttonGO.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f;
+
+            var link = buttonGO.GetComponent<SocialLinkButton>();
+            if (link == null) link = buttonGO.AddComponent<SocialLinkButton>();
+            if (clickClip != null) link.clickSound = clickClip;
+
+            var button = buttonGO.GetComponent<Button>();
+            if (button == null)
+            {
+                Debug.LogWarning("WireInteractiveLinks: no Button component on " + buttonGO.name);
+                continue;
+            }
+
+            bool alreadyWired = false;
+            int count = button.onClick.GetPersistentEventCount();
+            for (int i = 0; i < count; i++)
+            {
+                if (button.onClick.GetPersistentTarget(i) == link &&
+                    button.onClick.GetPersistentMethodName(i) == "OpenLink")
+                {
+                    alreadyWired = true;
+                    break;
+                }
+            }
+            if (!alreadyWired)
+            {
+                UnityEventTools.AddPersistentListener(button.onClick, link.OpenLink);
+            }
+            wiredCount++;
+        }
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+        Debug.Log($"WireInteractiveLinks: wired click -> OpenURL + audio feedback on {wiredCount} buttons; scene saved.");
+        EditorUtility.DisplayDialog("AR Business Card", $"Wired {wiredCount} link buttons:\n- OnClick opens their URL\n- Press color-tint feedback (Button transition)\n- Click sound feedback (procedural)", "OK");
+    }
+
+    private static void WriteClickSoundWav(string path)
+    {
+        const int sampleRate = 44100;
+        const float duration = 0.12f;
+        int sampleCount = (int)(sampleRate * duration);
+        var samples = new float[sampleCount];
+        const float freq = 1200f;
+        for (int i = 0; i < sampleCount; i++)
+        {
+            float t = (float)i / sampleRate;
+            float envelope = Mathf.Exp(-t * 30f);
+            samples[i] = Mathf.Sin(2f * Mathf.PI * freq * t) * envelope * 0.6f;
+        }
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        using (var writer = new BinaryWriter(stream))
+        {
+            int byteRate = sampleRate * 2;
+            int dataSize = samples.Length * 2;
+            writer.Write(new[] { 'R', 'I', 'F', 'F' });
+            writer.Write(36 + dataSize);
+            writer.Write(new[] { 'W', 'A', 'V', 'E' });
+            writer.Write(new[] { 'f', 'm', 't', ' ' });
+            writer.Write(16);
+            writer.Write((short)1);
+            writer.Write((short)1);
+            writer.Write(sampleRate);
+            writer.Write(byteRate);
+            writer.Write((short)2);
+            writer.Write((short)16);
+            writer.Write(new[] { 'd', 'a', 't', 'a' });
+            writer.Write(dataSize);
+            foreach (var s in samples)
+            {
+                short val = (short)(Mathf.Clamp(s, -1f, 1f) * short.MaxValue);
+                writer.Write(val);
+            }
+        }
     }
 
 }
