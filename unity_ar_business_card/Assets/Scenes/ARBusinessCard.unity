@@ -920,7 +920,7 @@ MonoBehaviour:
   mHeight: 5.789948
   mRuntimeTexture: {fileID: 0}
   mMotionHint: 1
-  mTrackingOptimization: 0
+  mTrackingOptimization: 1
   mTrackingOptimizationNeedsUpgrade: 0
   mPreview: {fileID: 1443719244}
 --- !u!114 &1443719244

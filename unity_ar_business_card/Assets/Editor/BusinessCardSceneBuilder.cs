@@ -689,5 +689,58 @@ public static class BusinessCardSceneBuilder
         }
     }
 
+    [MenuItem("AR Business Card/9. Fix Marker Tracking (Low-Feature Optimization)")]
+    private static void FixMarkerTracking()
+    {
+        var imageTargetGO = GameObject.Find("ImageTarget");
+        if (imageTargetGO == null)
+        {
+            Debug.LogError("FixMarkerTracking: could not find 'ImageTarget' GameObject in the scene.");
+            return;
+        }
+
+        var behaviour = imageTargetGO.GetComponent<Vuforia.ImageTargetBehaviour>();
+        if (behaviour == null)
+        {
+            Debug.LogError("FixMarkerTracking: 'ImageTarget' has no ImageTargetBehaviour component.");
+            return;
+        }
+
+        // GetTrackingOptimization()/SetTrackingOptimization() are runtime APIs that need a live
+        // native Observer (Play Mode), so calling them in Edit Mode throws a NullReferenceException.
+        // Instead, write the serialized field directly, exactly like the Inspector dropdown would.
+        var so = new SerializedObject(behaviour);
+        var prop = so.FindProperty("mTrackingOptimization");
+        if (prop == null)
+        {
+            Debug.LogError("FixMarkerTracking: could not find serialized property mTrackingOptimization.");
+            return;
+        }
+        var before = (Vuforia.TrackingOptimization)prop.intValue;
+        prop.intValue = (int)Vuforia.TrackingOptimization.LOW_FEATURE_OBJECTS;
+
+        var upgradeProp = so.FindProperty("mTrackingOptimizationNeedsUpgrade");
+        if (upgradeProp != null) upgradeProp.boolValue = false;
+
+        so.ApplyModifiedProperties();
+        var after = (Vuforia.TrackingOptimization)prop.intValue;
+
+        EditorUtility.SetDirty(behaviour);
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+        Debug.Log($"FixMarkerTracking: TrackingOptimization changed from {before} to {after}. " +
+                  "This tells Vuforia's tracker to expect a target with large smooth/flat color " +
+                  "regions (like our seahorse logo) instead of a densely-textured one, which " +
+                  "should make initial detection and lock-on much more reliable.");
+        EditorUtility.DisplayDialog(
+            "AR Business Card",
+            "Marker tracking optimization set to LOW_FEATURE_OBJECTS.\n\n" +
+            "This tunes Vuforia's tracker for the seahorse logo's large flat-color areas, " +
+            "which is very likely why detection was unreliable before. Rebuild the app " +
+            "(Android and/or iOS) to test the fix on-device.",
+            "OK");
+    }
+
 }
 #endif
