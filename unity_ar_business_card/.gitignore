@@ -53,3 +53,14 @@ crashlytics-build.properties
 # too large for the repo; keep it locally in Packages/ so Unity can resolve
 # com.ptc.vuforia.engine, but don't track it in git.
 Packages/com.ptc.vuforia.engine-*.tgz
+
+# macOS Finder metadata
+.DS_Store
+
+# Vuforia runtime cache folder (created locally when Play Mode/device tests run)
+QCAR/
+
+# Scratch snippet files used during editor-scripted scene automation
+.old_wire_ar_snippet*.txt
+_anim_snippet.txt.used_*
+_links_snippet.txt.used_*

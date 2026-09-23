@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &176598549
 RectTransform:
   m_ObjectHideFlags: 0
@@ -816,7 +816,7 @@ GameObject:
   - component: {fileID: 1443719240}
   - component: {fileID: 1443719243}
   - component: {fileID: 1443719242}
-  - component: {fileID: 1443719241}
+  - component: {fileID: 1443719244}
   m_Layer: 0
   m_Name: ImageTarget
   m_TagString: Untagged
@@ -840,25 +840,6 @@ Transform:
   - {fileID: 1677370180}
   m_Father: {fileID: 698305619}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1443719241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1443719239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 1443719243}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: holberton
-  mDatasetName: Vuforia/ARBussinessCard.xml
-  mCastedBehaviour: {fileID: 1443719243}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &1443719242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,7 +922,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 1443719241}
+  mPreview: {fileID: 1443719244}
+--- !u!114 &1443719244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443719239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 1443719243}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: holberton
+  mDatasetName: Vuforia/ARBussinessCard.xml
+  mCastedBehaviour: {fileID: 1443719243}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &1676015902
 GameObject:
   m_ObjectHideFlags: 0
