@@ -48,3 +48,8 @@ crashlytics-build.properties
 
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Vuforia bootstrap tarball (132MB, embedded as a local package dependency) -
+# too large for the repo; keep it locally in Packages/ so Unity can resolve
+# com.ptc.vuforia.engine, but don't track it in git.
+Packages/com.ptc.vuforia.engine-*.tgz

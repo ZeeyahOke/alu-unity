@@ -97,6 +97,56 @@ public static class BusinessCardSceneBuilder
         EditorUtility.DisplayDialog("AR Business Card", "Screenshot saved to Docs/0-layout-screenshot.png", "OK");
     }
 
+    [MenuItem("AR Business Card/3. Import Vuforia Package")]
+    public static void ImportVuforiaPackage()
+    {
+        const string pkgPath = "/Users/fawzo1/Downloads/add-vuforia-package-11-4-4.unitypackage";
+        if (!File.Exists(pkgPath))
+        {
+            EditorUtility.DisplayDialog("AR Business Card", "Could not find:\n" + pkgPath, "OK");
+            return;
+        }
+        Debug.Log("[BusinessCardSceneBuilder] Importing Vuforia package (this can take a minute)...");
+        AssetDatabase.ImportPackage(pkgPath, false);
+    }
+
+    [MenuItem("AR Business Card/4. Import Target Database")]
+    public static void ImportTargetDatabase()
+    {
+        const string pkgPath = "/Users/fawzo1/Downloads/ARBussinessCard.unitypackage";
+        if (!File.Exists(pkgPath))
+        {
+            EditorUtility.DisplayDialog("AR Business Card", "Could not find:\n" + pkgPath, "OK");
+            return;
+        }
+        Debug.Log("[BusinessCardSceneBuilder] Importing target database...");
+        AssetDatabase.ImportPackage(pkgPath, false);
+    }
+
+    [MenuItem("AR Business Card/5. Dump ImageTarget Fields (debug)")]
+    public static void DumpImageTargetFields()
+    {
+        var go = GameObject.Find("ImageTarget");
+        if (go == null) { Debug.LogError("ImageTarget not found"); return; }
+        var comps = go.GetComponents<Component>();
+        foreach (var c in comps)
+        {
+            if (c == null) continue;
+            Debug.Log("--- Component: " + c.GetType().FullName + " ---");
+            var so = new SerializedObject(c);
+            var prop = so.GetIterator();
+            bool enterChildren = true;
+            while (prop.NextVisible(enterChildren))
+            {
+                enterChildren = false;
+                string val;
+                try { val = prop.propertyType == SerializedPropertyType.String ? prop.stringValue : prop.propertyType.ToString(); }
+                catch { val = "?"; }
+                Debug.Log(prop.propertyPath + " : " + prop.propertyType + " = " + val);
+            }
+        }
+    }
+
     [MenuItem("AR Business Card/1. Build Static Layout")]
     public static void BuildStaticLayout()
     {
@@ -322,5 +372,63 @@ public static class BusinessCardSceneBuilder
             return _circleSprite;
         }
     }
+    [MenuItem("AR Business Card/6. Wire AR Anchoring (Task 1)")]
+    private static void WireArAnchoring()
+    {
+        var imageTarget = GameObject.Find("ImageTarget");
+        if (imageTarget == null)
+        {
+            Debug.LogError("WireArAnchoring: could not find 'ImageTarget' GameObject. Make sure the Image Target was created via GameObject > Vuforia Engine > Image Target.");
+            return;
+        }
+
+        var arCameraGO = GameObject.Find("ARCamera");
+        if (arCameraGO == null)
+        {
+            Debug.LogError("WireArAnchoring: could not find 'ARCamera' GameObject.");
+            return;
+        }
+        var arCamera = arCameraGO.GetComponent<Camera>();
+
+        // Remove the redundant plain Main Camera now that ARCamera handles rendering.
+        var oldMainCamera = GameObject.Find("Main Camera");
+        if (oldMainCamera != null)
+        {
+            Object.DestroyImmediate(oldMainCamera);
+            Debug.Log("WireArAnchoring: removed redundant 'Main Camera' GameObject.");
+        }
+
+        var canvasGO = GameObject.Find("BusinessCardCanvas");
+        if (canvasGO == null)
+        {
+            Debug.LogError("WireArAnchoring: could not find 'BusinessCardCanvas' GameObject.");
+            return;
+        }
+        var canvas = canvasGO.GetComponent<Canvas>();
+
+        // Reparent the whole card layout under the ImageTarget so it inherits the
+        // marker's tracked pose (position/rotation/scale) and disappears when the
+        // marker is lost.
+        canvasGO.transform.SetParent(imageTarget.transform, false);
+
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = arCamera;
+
+        // The ImageTarget's local plane is the XZ plane (Y points away from the
+        // printed marker, towards the camera). Rotate the canvas so its content
+        // lies flat on that plane instead of standing upright, and nudge it
+        // slightly above the surface to avoid z-fighting with the marker preview.
+        var rt = canvasGO.GetComponent<RectTransform>();
+        rt.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        rt.localPosition = new Vector3(0f, 0.02f, 0f);
+        const float scale = 0.006f; // 1920px-wide canvas -> ~11.5 units wide in scene
+        rt.localScale = new Vector3(scale, scale, scale);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+        Debug.Log("WireArAnchoring: BusinessCardCanvas reparented under ImageTarget, converted to World Space, and scene saved.");
+        EditorUtility.DisplayDialog("AR Business Card", "Card layout is now anchored to the ImageTarget (World Space canvas, reparented, Main Camera removed).", "OK");
+    }
+
 }
 #endif
